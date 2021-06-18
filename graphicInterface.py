@@ -276,7 +276,7 @@ def show_window_details():
     if btn_show_details_clicked < 2:
         global details_window
         details_window = Toplevel(main_window)
-        details_window.iconbitmap('main_icon.ico')
+        details_window.iconbitmap('images/main_icon.ico')
         details_window.title("Details")
         details_window.resizable(width=False, height=False)
         details_window.bind('<Return>', enter_clicked)
@@ -392,7 +392,7 @@ def modal_window_continue_clicked():
 def show_modal_window():
     global modal_window
     modal_window = Toplevel(main_window)
-    modal_window.iconbitmap('main_icon.ico')
+    modal_window.iconbitmap('images/main_icon.ico')
     modal_window.title("Waiting window")
     modal_window.resizable(width=False, height=False)
     modal_window.protocol("WM_DELETE_WINDOW", modal_window_on_closing)
@@ -498,7 +498,7 @@ def show_main_window():
     global main_window
     main_window = Tk()
     main_window.title("Similitary of music tracks")
-    main_window.iconbitmap('main_icon.ico')
+    main_window.iconbitmap('images/main_icon.ico')
     main_window.resizable(width=False, height=False)
     main_window.protocol("WM_DELETE_WINDOW", main_window_on_closing)
 
@@ -509,7 +509,7 @@ def show_main_window():
     global file_second_track
     file_second_track = ''
     global image_warning
-    image_warning = PhotoImage(file='warning.png')
+    image_warning = PhotoImage(file='images/warning.png')
 
     global label_first_track
     label_first_track = Label(main_window, text="Music track №1")
