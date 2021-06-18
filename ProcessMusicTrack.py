@@ -8,39 +8,31 @@ import matplotlib.pyplot as plt
 import musicTrack as mt
 
 
-# Перечисление для метода формирования спектра
 class SpectrumMode(Enum):
     FULL_SPECTRUM = 'Full spectrum'
     TRANSPOSED_OCTAVE = 'Transposed octave'
 
 
-# Перечисление для метода фильтрации
 class FilterMode(Enum):
     BY_COEFFICIENT = 'Filter by coefficient'
     BY_NUMBER = 'Filter by number'
 
 
-# Класс обработки музыкального трека
 class ProcessMusicTrack():
-    F0 = 220                                        # Частота первой ноты
-    FRAME_SIZE = 8192                               # Кол-во точек в фрейме
-    THRESHOLD_OF_NOISE = 0.25                       # Коэффициент фильтрации
-    NUMBER_OF_NOTES = 60                            # Кол-во рассматриваемых нот
-    NUMBER_OF_GOOD_FRAMES = 60                      # Кол-во рассматриваемых фреймов
-    SAMPLE_RATE = 44100                             # Частота дискретизации
-    NUMBER_OF_NOTES_AT_OCTAVE = 12                  # Кол-во нот в октаве
-    NUMBER_OF_OCTAVES = 5                           # Кол-во октав
-    STEP_FOR_DISTRIBUTION_DENSITY_OF_NOTES = 0.1    # Шаг вероятностного распределения
-    LOWER_DENSITY_LIMIT = 0.0001                    # Порог снизу для вероятностей
-    SPECTRUM_MODE = None                            # Режим формирования нотного спектра
-    FILTER_MODE = None                              # Режим фильтрации
+    F0 = 220
+    FRAME_SIZE = 8192
+    THRESHOLD_OF_NOISE = 0.25
+    NUMBER_OF_NOTES = 60
+    NUMBER_OF_GOOD_FRAMES = 60
+    SAMPLE_RATE = 44100
+    NUMBER_OF_NOTES_AT_OCTAVE = 12
+    NUMBER_OF_OCTAVES = 5
+    STEP_FOR_DISTRIBUTION_DENSITY_OF_NOTES = 0.1
+    LOWER_DENSITY_LIMIT = 0.0001
+    SPECTRUM_MODE = None
+    FILTER_MODE = None
 
 
-    # Создает объект обработки трека по умолчанию
-    # self - объект класса
-    # path_to_track - путь к файлу
-    # spectrum_mode - режим формирования нотного спектра
-    # filter_mode - Режим фильтрации
     def __init__(self, path_to_track, spectrum_mode, filter_mode):
         self.music_track = mt.MusicTrack(path_to_track)
         self.output_directory = path_to_track[0:len(path_to_track)-4]
@@ -55,9 +47,6 @@ class ProcessMusicTrack():
         ProcessMusicTrack.SPECTRUM_MODE = spectrum_mode.value
         ProcessMusicTrack.FILTER_MODE = filter_mode.value
 
-    # Фильтрация фреймов по коэффициенту
-    # self - объект класса
-    # return - отфильтрованные фреймы
     def filter_frames_by_coefficient(self, log):
         frames = []
         for i in range(self.numberOfFrames):
@@ -74,9 +63,6 @@ class ProcessMusicTrack():
 
         return frames
 
-    # Фильтрация фреймов по коэффициенту
-    # self - объект класса
-    # return - отфильтрованные фреймы
     def filter_frames_by_number(self, log):
         frames = []
         indexes_and_means_of_good_frames = {a * -1: a * -1 for a in range(1, ProcessMusicTrack.NUMBER_OF_GOOD_FRAMES + 1)}
@@ -116,9 +102,6 @@ class ProcessMusicTrack():
 
         return min_k, min_v
 
-    # Выполнение преобразования Фурье
-    # self - объект класса
-    # return - результат преобразования Фурье, набор частот
     def fourier_transformation(self, log):
         fourier_frames = []
 
@@ -136,9 +119,6 @@ class ProcessMusicTrack():
 
         return fourier_frames, xf
 
-    # Формирование нот по диапазонам частот
-    # self - объект класса
-    # return - индексы нот, индексы-границы для каждой ноты
     def make_notes(self, log):
         notes_indexes = []
         notes_environments = []
@@ -208,9 +188,6 @@ class ProcessMusicTrack():
                 print('delta delta: ' + str(abs((self.notes_environments[i - 1][1] - self.notes_indexes[i - 1]) - (
                             self.notes_indexes[i] - self.notes_environments[i][0]))))
 
-    # Формирование матрицы полного спектра
-    # self - объект класса
-    # return - матрица полного нотного спектра
     def make_matrix_of_full_spectrum(self):
         matrix = []
         for frame in self.fourier_frames:
@@ -222,9 +199,6 @@ class ProcessMusicTrack():
 
         return matrix
 
-    # Формирование матрицы спектра по методу транспонированной октавы
-    # self - объект класса
-    # return - матрица нотного спектра
     def make_matrix_of_transposed_octave(self):
         matrix = []
         for frame in self.fourier_frames:
@@ -333,9 +307,6 @@ class ProcessMusicTrack():
 
         return self.output_directory + '/' + 'Divergence' + '/' + 'Result divergence.png'
 
-    # Формирование плотностей распределения вероятностей
-    # self - объект класса
-    # return - матрица распределения вероятностей
     def get_distribution_density_for_notes(self):
         distribution_density_for_notes = []
         for j in range(len(self.spectral_matrix[0])):
@@ -369,9 +340,6 @@ class ProcessMusicTrack():
 
         plt.show()
 
-    # Обработка музыкального произведения
-    # self - объект класса
-    # return - None
     def start_processing(self):
         if not os.path.exists(self.output_directory):
             os.mkdir(self.output_directory)
@@ -403,10 +371,6 @@ class ProcessMusicTrack():
         self.distribution_density_for_notes = self.get_distribution_density_for_notes()
         self.output_to_file_distribution_density()
 
-    # Определение расстояние Кульбака-Лейблера
-    # self - объект класса
-    # second_track - второе музыкальное произведение
-    # return - расстояние Кульбака-Лейблера
     def get_Kullback_Leibler_divergence(self, second_track):
         kullback_leibler_divergencies = []
         for i in range(len(self.distribution_density_for_notes)):
@@ -447,11 +411,6 @@ class ProcessMusicTrack():
 
         # fig.savefig(self.output_directory + '\\' + name_of_divergence + ' ' + str1 + '-' + str2 + '.png')
 
-    # Определение среднего значения дивергенций
-    # self - объект класса
-    # first_divergence - первая дивергенция
-    # second_divergence - первая дивергенция
-    # return - среднее значение дивергенций
     @staticmethod
     def get_mean_of_divergencies(first_divergence, second_divergence):
         mean_of_divergencies = []
@@ -460,11 +419,6 @@ class ProcessMusicTrack():
 
         return mean_of_divergencies
 
-    # Определение схожести музыкальных произведений
-    # self - объект класса
-    # track1 - первый трек
-    # track2 - второй трек
-    # return - значение схожести треков
     @staticmethod
     def get_divergence_of_tracks(track1, track2):
         first_divergence = track1.get_Kullback_Leibler_divergence(track2)
