@@ -5,4 +5,4 @@
  and obtaining the corresponding densities of probability distributions for the matrices under consideration, the Kullback-Leibler distance between the distributions is 
  calculated: https://en.wikipedia.org/wiki/Kullback–Leibler_divergence. From the obtained values of the distance by averaging, the very value of the similarity of musical
  compositions is obtained. A more detailed description of the developed algorithm for determining the similarity metric of musical compositions is located in the folder
- "documents" of this repository.
+ "documents" of this repository. The folder "music" contains pieces of music for testing the developed algorithm.
