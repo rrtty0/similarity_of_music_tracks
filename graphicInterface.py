@@ -33,7 +33,7 @@ def first_track_button_clicked():
         track_name = re.search(r'[^/]*\.((wav)|(ogg)|(mp3))$', str(file_first_track)).group(0)
         if str(cpy_file_name) != '':
             last_track_name = re.search(r'[^/]*\.((wav)|(ogg)|(mp3))$', str(cpy_file_name)).group(0)
-            if os.path.exists('music/' + str(last_track_name)[0:len(str(last_track_name)) - 4]):
+            if os.path.exists('musics/' + str(last_track_name)[0:len(str(last_track_name)) - 4]):
                 shutil.rmtree(str(cpy_file_name)[0:len(str(cpy_file_name)) - 4])
         txt_first_track_name.configure(state=NORMAL)
         txt_first_track_name.delete(0, END)
@@ -59,7 +59,7 @@ def second_track_button_clicked():
         track_name = re.search(r'[^/]*\.((wav)|(ogg)|(mp3))$', str(file_second_track)).group(0)
         if str(cpy_file_name) != '':
             last_track_name = re.search(r'[^/]*\.((wav)|(ogg)|(mp3))$', str(cpy_file_name)).group(0)
-            if os.path.exists('music/' + str(last_track_name)[0:len(str(last_track_name)) - 4]):
+            if os.path.exists('musics/' + str(last_track_name)[0:len(str(last_track_name)) - 4]):
                 shutil.rmtree(str(cpy_file_name)[0:len(str(cpy_file_name)) - 4])
         txt_second_track_name.configure(state=NORMAL)
         txt_second_track_name.delete(0, END)
@@ -276,7 +276,7 @@ def show_window_details():
     if btn_show_details_clicked < 2:
         global details_window
         details_window = Toplevel(main_window)
-        details_window.iconbitmap('images/main_icon.ico')
+        details_window.iconbitmap('icons/main_icon.ico')
         details_window.title("Details")
         details_window.resizable(width=False, height=False)
         details_window.bind('<Return>', enter_clicked)
@@ -370,8 +370,8 @@ def show_window_details():
 
         photoImage3 = PhotoImage(
             file=ProcessMusicTrack.ProcessMusicTrack.output_graphic_divergence_of_tracks(processed_first_track, divergence_vec,
-                                                                     processed_first_track.music_track.short_track_name,
-                                                                     processed_second_track.music_track.short_track_name))
+                                                                                         processed_first_track.music_track.short_track_name,
+                                                                                         processed_second_track.music_track.short_track_name))
         label_image_tab3 = Label(tab3, image=photoImage3)
         label_image_tab3.grid(column=0, row=0)
 
@@ -392,7 +392,7 @@ def modal_window_continue_clicked():
 def show_modal_window():
     global modal_window
     modal_window = Toplevel(main_window)
-    modal_window.iconbitmap('images/main_icon.ico')
+    modal_window.iconbitmap('icons/main_icon.ico')
     modal_window.title("Waiting window")
     modal_window.resizable(width=False, height=False)
     modal_window.protocol("WM_DELETE_WINDOW", modal_window_on_closing)
@@ -497,8 +497,8 @@ def main_window_on_closing():
 def show_main_window():
     global main_window
     main_window = Tk()
-    main_window.title("Similitary of music tracks")
-    main_window.iconbitmap('images/main_icon.ico')
+    main_window.title("Similitary of musics tracks")
+    main_window.iconbitmap('icons/main_icon.ico')
     main_window.resizable(width=False, height=False)
     main_window.protocol("WM_DELETE_WINDOW", main_window_on_closing)
 
@@ -509,7 +509,7 @@ def show_main_window():
     global file_second_track
     file_second_track = ''
     global image_warning
-    image_warning = PhotoImage(file='images/warning.png')
+    image_warning = PhotoImage(file='icons/warning.png')
 
     global label_first_track
     label_first_track = Label(main_window, text="Music track №1")
