@@ -7,6 +7,7 @@ from enum import Enum
 import shutil
 import threading
 import os.path
+import signal
 
 
 class ShowImageMode(Enum):
@@ -493,6 +494,8 @@ def main_window_on_closing():
     if str(file_second_track) != '' and created_folder_second_track:
         shutil.rmtree(str(file_second_track)[0:len(str(file_second_track)) - 4])
     main_window.destroy()
+    os.kill(os.getpid(), signal.SIGTERM)
+
 
 def show_main_window():
     global main_window
